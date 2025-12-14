@@ -326,8 +326,8 @@ int main (int argc, char **argv){
     /* instantiate LARMORD */
     mol=Molecule::readPDB(pdbs.at(0));
     mol->selAll();
-    larm = new LARMORD(mol,fchemshift,fparmfile,freffile,faccfile,fcorfile,residue_based,residue_based_weights,mismatchCheck);
-        
+    larm = new LARMORD(mol,fchemshift,fparmfile,freffile,faccfile,fcorfile,residue_based,residue_based_weights,mismatchCheck,false,"protein",ringCurrent,cutoffRing);
+
     /* Process trajectories */
     for (itrj=0; itrj< trajs.size(); itrj++)
     {
@@ -446,7 +446,7 @@ int main (int argc, char **argv){
 												}                          
 											}
 										}
-										cspred += randcs;
+										cspred += randcs + ringc;
 										if(print_error)
 										{
 											if (residue_based || residue_based_weights)
@@ -542,8 +542,8 @@ int main (int argc, char **argv){
     for (f=0; f< pdbs.size(); f++)
     {  
       mol=Molecule::readPDB(pdbs.at(f));
-      larm = new LARMORD(mol,fchemshift,fparmfile,freffile,faccfile,fcorfile,residue_based,residue_based_weights,mismatchCheck);
-      
+      larm = new LARMORD(mol,fchemshift,fparmfile,freffile,faccfile,fcorfile,residue_based,residue_based_weights,mismatchCheck,false,"protein",ringCurrent,cutoffRing);
+
       //std::cerr << "Processing file \"" << pdbs.at(f) << "..." << std::endl;
       /* get distance matrix */
       mol->assignAtmInx();
@@ -638,9 +638,9 @@ int main (int argc, char **argv){
 											cspred = cspred + alpha.at(m)*pow(dist,beta.at(m));
 										}
 									}
-								}								
+								}
 							}
-							cspred += randcs;							
+							cspred += randcs + ringc;
 							if(print_error)
 							{
 								if (residue_based || residue_based_weights)
