@@ -616,7 +616,6 @@ int main (int argc, char **argv){
 							
 							for (unsigned int l=0; l < neighbormol->getAtmVecSize(); l++){
 								aj = neighbormol->getAtom(l);
-								aj = neighbormol->getAtom(l);
 								if(ai->getResId() == aj->getResId() && noselfshift == true)
 									continue;								
 								if(ai!=aj){

@@ -323,7 +323,7 @@ void Trajectory::writeHeader(std::ofstream &trjout){
     }
 
     writeFortran(trjout, otitle, length);
-    delete otitle;
+    delete[] otitle;
 
     //binbuf natm=natom;
     if (mol != NULL){
