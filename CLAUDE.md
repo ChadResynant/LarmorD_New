@@ -22,13 +22,21 @@ make clean && make
 
 ```bash
 # Run test suite from repository root
-cd tests && bash test.bash
+cd /Users/chad/repos/LarmorD_New/tests && bash test.bash
 
-# Example prediction on a single PDB
+# Example: protein prediction with accuracy weights
+bin/larmord -csfile tests/measured_shifts_A003.dat \
+    -parmfile data/larmorD_alphas_betas.dat \
+    -reffile data/larmorD_reference_shifts.dat \
+    -accfile data/larmorD_accuracy_weight.dat \
+    -cutoff 15.0 tests/A003.pdb
+
+# Example: RNA prediction (no cutoff)
 bin/larmord -csfile tests/measured_shifts.dat \
     -parmfile data/larmorD_alphas_betas_rna.dat \
     -reffile data/larmorD_reference_shifts_rna.dat \
-    tests/file.pdb
+    -accfile data/larmorD_accuracy_weight_rna.dat \
+    -cutoff 9999.0 tests/file.pdb
 ```
 
 ## Architecture
@@ -50,9 +58,14 @@ bin/larmord -csfile tests/measured_shifts.dat \
 All parameter files are in `data/`:
 - `larmorD_alphas_betas_*.dat` - Distance-dependent parameters (α, β coefficients)
 - `larmorD_reference_shifts_*.dat` - Random coil reference shifts
-- `larmorD_accuracy_*.dat` - Prediction accuracy weights
+- `larmorD_accuracy_weight*.dat` - Accuracy weighting files for scoring
+- `larmord_parameter_v*.dat` - Versioned parameter sets (v3.0–v8.0)
 
-Use `_rna` suffix files for RNA, `_proteins_` prefix for proteins.
+**File naming conventions:**
+- `_rna` suffix → RNA (use with `-cutoff 9999.0`)
+- `larmorD_proteins_` prefix → proteins with specific cutoffs
+- `_cutoff_N` suffix → parameters optimized for N Å cutoff
+- Default protein files (`larmorD_alphas_betas.dat`) → use with `-cutoff 15.0`
 
 ### Prediction Model
 
@@ -63,12 +76,15 @@ Where α and β parameters are atom-type specific and distances are to neighbori
 ## Key CLI Options
 
 - `-csfile` - Experimental chemical shifts for comparison
-- `-parmfile` - α/β parameters
+- `-parmfile` - α/β parameters (alphas_betas file)
 - `-reffile` - Reference (random coil) shifts
-- `-cutoff` - Distance cutoff in Ångströms
+- `-accfile` - Accuracy weighting file (used in scoring; see `data/larmorD_accuracy_weight*.dat`)
+- `-cutoff` - Distance cutoff in Ångströms (use 9999.0 for no cutoff)
 - `-ring` - Enable ring current corrections
+- `-cutoffRing` - Distance cutoff for ring current calculations
 - `-trj` - Process trajectory file (DCD format)
 - `-printError` - Output prediction errors (MAE, RMSE, etc.)
+- `-mismatchCheck` - Verify PDB residues match chemical shift file
 
 ## Output Format
 
