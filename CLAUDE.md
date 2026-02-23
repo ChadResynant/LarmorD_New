@@ -22,7 +22,7 @@ make clean && make
 
 ```bash
 # Run test suite from repository root
-cd /Users/chad/repos/LarmorD_New/tests && bash test.bash
+cd ~/repos/LarmorD_New/tests && bash test.bash
 
 # Example: protein prediction with accuracy weights
 bin/larmord -csfile tests/measured_shifts_A003.dat \
