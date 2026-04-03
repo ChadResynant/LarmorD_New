@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Governance Prerequisite (Non-Negotiable)
+
+**Before any work in this repository, read and comply with:** [`~/repos/governance/INDEX.md`](../governance/INDEX.md)
+
+All cross-repo contracts, policies, and enforcement gates in `~/repos/governance/` are binding. Repo-specific rules below may extend but never override governance contracts.
+
+
 ## Overview
 
 LarmorD is a distance-based NMR chemical shift predictor for RNA and proteins. It predicts 1H, 13C, and 15N chemical shifts from 3D molecular structures (PDB format) or trajectories (DCD format).
